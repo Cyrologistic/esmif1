@@ -37,6 +37,7 @@ def run_model(num_samples, fpath, temperature, output_folder, target_chain_id):
     recoveries = []
     for i in range(num_samples):
         coords, native_seqs = esm.inverse_folding.util.load_coords(fpath, target_chain_id)
+        seqs.append(native_seqs)
         sampled_seq = model.sample(coords, temperature=temperature)
         seqs.append(sampled_seq)
         recovery = np.mean([(a==b) for a ,b in zip(native_seqs, sampled_seq)])
@@ -90,6 +91,7 @@ def prediction_from_structure(output_folder, pdb_name, num_samples, target_chain
     
     return result_dict
 
+"""
 def run_model_v2(num_samples, fpath, temperature, output_folder, target_chain_id):
     model, alphabet = esm.pretrained.esm_if1_gvp4_t16_142M_UR50()
     model = model.eval()
@@ -145,6 +147,6 @@ def predict_mutational_effect(pdb_name, target_chain_id):
     print(f'Average log-likelihood excluding missing coordinates: {ll_withcoord:.2f} (perplexity {np.exp(-ll_withcoord):.2f})')
     return ll_fullseq, ll_withcoord
 
-    
+"""
     
     
